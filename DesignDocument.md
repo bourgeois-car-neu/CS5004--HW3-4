@@ -17,7 +17,9 @@ classDiagram
     direction LR
     PayrollGenerator --> IPayStub : uses
     PayrollGenerator --> IEmployee : uses
-    PayrollGenerator --> ITimeCard 
+    PayrollGenerator --> Builder : uses
+    Builder --> IEmployee
+    Builder --> ITimeCard
     class PayrollGenerator {
         - DEFAULT_EMPLOYEE_FILE: String = "resources/employees.csv"
         - DEFAULT_PAYROLL_FILE: String = "resources/pay_stubs.csv"
@@ -27,28 +29,45 @@ classDiagram
     }
     class IPayStub {
         <<interface>>
-        - getPay(): double
-        - getTaxesPaid(): double
-        - toCSV(): String
+        - getPay() double
+        - getTaxesPaid() double
+        - toCSV() String
     }
     
     class IEmployee {
         <<interface>>
-        - getName(): String
-        - getID(): String
-        - getPayRate(): double
-        - getEmployeeType(): String
-        - getYTDEarnings(): double
-        - getYTDTaxesPaid(): double
-        - getPretaxDeductions(): double
+        - getName() String
+        - getID() String
+        - getPayRate() double
+        - getEmployeeType() String
+        - getYTDEarnings() double
+        - getYTDTaxesPaid() double
+        - getPretaxDeductions() double
         - runPayroll(double: hoursWorked)
-        - toCSV(): String
+        - toCSV() String
     }
     
     class ITimeCard {
         <<interface>>
-        - getEmployeeID(): String
-        - getHoursWorked(): double
+        - getEmployeeID() String
+        - getHoursWorked() double
+    }
+
+    class Builder {
+        - Builder()
+        + buildEmployeeFromCSV(csv: String) IEmployee
+        + buildTimeCardFromCSV(csv: String) ITimeCard
+    }
+
+    class FileUtil {
+        + EMPLOYEE_HEADER: String = "employee_type,name,ID,payRate,
+          pretaxDeductions,YTDEarnings,YTDTaxesPaid"
+        + PAY_STUB_HEADER: String = "employee_name,net_pay,taxes,
+          ytd_earnings,ytd_taxes_paid"
+        -  FileUtil()
+        + readFileToList(file: String)
+        + writeFile(outFile: String, lines: List<String>)  void
+        + writeFile(outFile: String, lines: List<String>, backup: boolean) void
     }
 ```
 
