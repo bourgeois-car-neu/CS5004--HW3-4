@@ -9,9 +9,48 @@ If you are using mermaid markup to generate your class diagrams, you may edit th
 
 Include a UML class diagram of your initial design for this assignment. If you are using the mermaid markdown, you may include the code for it here. For a reminder on the mermaid syntax, you may go [here](https://mermaid.js.org/syntax/classDiagram.html)
 
-
-
-
+```mermaid
+---
+title: Payroll Generator UML
+---
+classDiagram
+    direction LR
+    PayrollGenerator --> IPayStub : uses
+    PayrollGenerator --> IEmployee : uses
+    PayrollGenerator --> ITimeCard 
+    class PayrollGenerator {
+        - DEFAULT_EMPLOYEE_FILE: String = "resources/employees.csv"
+        - DEFAULT_PAYROLL_FILE: String = "resources/pay_stubs.csv"
+        - DEFAULT_TIME_CARD_FILE: String = "resources/time_cards.csv"
+        - PayrollGenerator()
+        + main(args: String[]): void
+    }
+    class IPayStub {
+        <<interface>>
+        - getPay(): double
+        - getTaxesPaid(): double
+        - toCSV(): String
+    }
+    
+    class IEmployee {
+        <<interface>>
+        - getName(): String
+        - getID(): String
+        - getPayRate(): double
+        - getEmployeeType(): String
+        - getYTDEarnings(): double
+        - getYTDTaxesPaid(): double
+        - getPretaxDeductions(): double
+        - runPayroll(double: hoursWorked)
+        - toCSV(): String
+    }
+    
+    class ITimeCard {
+        <<interface>>
+        - getEmployeeID(): String
+        - getHoursWorked(): double
+    }
+```
 
 ## (INITIAL DESIGN): Tests to Write - Brainstorm
 
