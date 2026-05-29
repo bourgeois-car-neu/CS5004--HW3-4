@@ -20,6 +20,8 @@ classDiagram
     PayrollGenerator --> Builder : uses
     Builder --> IEmployee
     Builder --> ITimeCard
+    
+    
     class PayrollGenerator {
         - DEFAULT_EMPLOYEE_FILE: String = "resources/employees.csv"
         - DEFAULT_PAYROLL_FILE: String = "resources/pay_stubs.csv"
@@ -27,11 +29,34 @@ classDiagram
         - PayrollGenerator()
         + main(args: String[]): void
     }
+    
     class IPayStub {
         <<interface>>
         - getPay() double
         - getTaxesPaid() double
         - toCSV() String
+    }
+
+    class HourlyEmployee {
+        - name: String
+        - id: String
+        - payRate: double
+        - ytdEarnings: double
+        - ytdTaxesPaid: double
+        - pretaxDeductions: double
+        + HourlyEmployee(name: String, id: String, payRate: double, ytdEarnings: double, ytdTaxesPaid: double, pretaxDeductions: double)
+        + calculateGrossPay(hoursWorked: double) double 
+    }
+
+    class SalaryEmployee {
+        - name: String
+        - id: String
+        - payRate: double
+        - ytdEarnings: double
+        - ytdTaxesPaid: double
+        - pretaxDeductions: double
+        + SalaryEmployeename: String, id: String, payRate: double, ytdEarnings: double, ytdTaxesPaid: double, pretaxDeductions: double)
+        + calculateGrossPay(hoursWorked: double) double 
     }
     
     class IEmployee {
@@ -46,7 +71,7 @@ classDiagram
         - runPayroll(double: hoursWorked)
         - toCSV() String
     }
-    
+
     class ITimeCard {
         <<interface>>
         - getEmployeeID() String
@@ -85,9 +110,12 @@ Write a test (in english) that you can picture for the class diagram you have cr
 
 You should feel free to number your brainstorm. 
 
-1. Test that the `Employee` class properly returns `name` from `getName()`
-2. Test that the `Employee` class properly returns `id` from `getId()`
-3. continue to add your brainstorm here (you don't need to super formal - this is a brainstorm) - yes, you can change the bullets above to something that fits your design.
+1. Test that `Employee` class properly returns `name` from `getName()`
+2. Test that `Employee` class properly returns `id` from `getId()`
+3. Test that `ITimeCard` class returns `employee id` from `getEmployeeID`
+4. Test that `ITimeCard` class returns `hours worked` from `getHoursWorked()`
+5. Test that `IPayStub` class returns `pay` from `getPay()`
+6. Test that `IPayStub` class returns `taxes paid` from `getTaxesPaid()`
 
 
 
