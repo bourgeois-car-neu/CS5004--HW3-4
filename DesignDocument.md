@@ -55,7 +55,7 @@ classDiagram
         - ytdEarnings: double
         - ytdTaxesPaid: double
         - pretaxDeductions: double
-        + SalaryEmployeename: String, id: String, payRate: double, ytdEarnings: double, ytdTaxesPaid: double, pretaxDeductions: double)
+        + SalaryEmployee(name: String, id: String, payRate: double, ytdEarnings: double, ytdTaxesPaid: double, pretaxDeductions: double)
         + calculateGrossPay(hoursWorked: double) double 
     }
     
@@ -85,10 +85,8 @@ classDiagram
     }
 
     class FileUtil {
-        + EMPLOYEE_HEADER: String = "employee_type,name,ID,payRate,
-          pretaxDeductions,YTDEarnings,YTDTaxesPaid"
-        + PAY_STUB_HEADER: String = "employee_name,net_pay,taxes,
-          ytd_earnings,ytd_taxes_paid"
+        + EMPLOYEE_HEADER: String = "employee_type,name,ID,payRate, pretaxDeductions,YTDEarnings,YTDTaxesPaid"
+        + PAY_STUB_HEADER: String = "employee_name,net_pay,taxes, ytd_earnings,ytd_taxes_paid"
         -  FileUtil()
         + readFileToList(file: String)
         + writeFile(outFile: String, lines: List<String>)  void
