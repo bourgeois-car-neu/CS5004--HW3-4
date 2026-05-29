@@ -20,7 +20,9 @@ classDiagram
     PayrollGenerator --> Builder : uses
     Builder --> IEmployee
     Builder --> ITimeCard
-    
+    AbstractEmployee ..|> IEmployee
+    HourlyEmployee --|> AbstractEmployee
+    SalaryEmployee --|> AbstractEmployee
     
     class PayrollGenerator {
         - DEFAULT_EMPLOYEE_FILE: String = "resources/employees.csv"
@@ -37,6 +39,25 @@ classDiagram
         - toCSV() String
     }
 
+    class AbstractEmployee {
+        - name: String
+        - id: String
+        - payRate: double
+        - ytdEarnings: double
+        - ytdTaxesPaid: double
+        - pretaxDeductions: double
+        + AbstractEmployee(String, String, double, double, double, double)
+        + getName() String
+        + getID() String
+        + getPayRate() double
+        + getEmployeeType() String
+        + getYTDEarnings() double
+        + getYTDTaxesPaid() double
+        + getPretaxDeductions() double
+        + toCSV() String
+        + calculateGrossPay(hoursWorked: double)
+    }    
+
     class HourlyEmployee {
         - name: String
         - id: String
@@ -45,7 +66,7 @@ classDiagram
         - ytdTaxesPaid: double
         - pretaxDeductions: double
         + HourlyEmployee(name: String, id: String, payRate: double, ytdEarnings: double, ytdTaxesPaid: double, pretaxDeductions: double)
-        + calculateGrossPay(hoursWorked: double) double 
+        + calculateGrossPay(hoursWorked: double)
     }
 
     class SalaryEmployee {
@@ -56,7 +77,7 @@ classDiagram
         - ytdTaxesPaid: double
         - pretaxDeductions: double
         + SalaryEmployee(name: String, id: String, payRate: double, ytdEarnings: double, ytdTaxesPaid: double, pretaxDeductions: double)
-        + calculateGrossPay(hoursWorked: double) double 
+        + calculateGrossPay(hoursWorked: double) 
     }
     
     class IEmployee {
